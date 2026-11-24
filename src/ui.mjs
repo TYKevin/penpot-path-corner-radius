@@ -1,7 +1,21 @@
 import { renderOutline } from './outline.mjs';
 import { commandsToSvg } from './geometry.mjs';
+import { resolveLanguage, translate } from './i18n.mjs';
 const $ = (id) => document.getElementById(id);
 const svgNS = 'http://www.w3.org/2000/svg';
+const languagePicker = $('language');
+const preferenceKey = 'path-corner-radius.ui-language';
+try {
+  const saved = window.localStorage.getItem(preferenceKey);
+  if (saved === 'en' || saved === 'zh') languagePicker.value = saved;
+} catch {
+  // Embedded browsers can disable storage. The picker still works.
+}
+let language;
+const t = (source, values) => translate(language, source, values);
+const labels = [...document.querySelectorAll('[data-i18n]')].map((el) => [el, el.textContent.trim()]);
+const ariaLabels = [...document.querySelectorAll('[data-i18n-aria]')].map((el) => [el, el.getAttribute('aria-label')]);
+let currentNotice = $('notice').textContent.trim();
 let model = null,
   radii = [],
   selected = new Set([0]),
@@ -10,9 +24,28 @@ let model = null,
 const send = (message) => parent.postMessage(message, '*');
 const roundedNumber = (n) => Math.round(n * 1000) / 1000;
 function notice(message, kind = '') {
-  $('notice').textContent = message;
+  currentNotice = message;
+  $('notice').textContent = t(message);
   $('notice').className = kind;
 }
+function updateLanguage() {
+  language = resolveLanguage(languagePicker.value, navigator.languages ?? [navigator.language]);
+  document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+  for (const [el, source] of labels) el.textContent = t(source);
+  for (const [el, source] of ariaLabels) el.setAttribute('aria-label', t(source));
+  $('notice').textContent = t(currentNotice);
+  render(true);
+}
+languagePicker.addEventListener('change', () => {
+  try {
+    if (languagePicker.value === 'auto') window.localStorage.removeItem(preferenceKey);
+    else window.localStorage.setItem(preferenceKey, languagePicker.value);
+  } catch {
+    // Keep the selection for the lifetime of the panel.
+  }
+  updateLanguage();
+});
+window.addEventListener('languagechange', updateLanguage);
 function vertexSelect(i, multi) {
   if (multi) {
     if (selected.has(i)) selected.delete(i);
@@ -84,7 +117,7 @@ function render(preserveInput = false) {
     g.setAttribute('class', `vertex${selected.has(i) ? ' selected' : ''}`);
     g.setAttribute('role', 'button');
     g.setAttribute('tabindex', '0');
-    g.setAttribute('aria-label', `顶点 ${i + 1}`);
+    g.setAttribute('aria-label', t('顶点 {n}', { n: i + 1 }));
     g.setAttribute('aria-pressed', String(selected.has(i)));
     const circle = document.createElementNS(svgNS, 'circle');
     circle.setAttribute('cx', p.x);
@@ -105,11 +138,11 @@ function render(preserveInput = false) {
     markers.append(g);
     const row = document.createElement('button');
     row.className = `radius-row${selected.has(i) ? ' selected' : ''}`;
-    row.setAttribute('aria-label', `选择顶点 ${i + 1}`);
+    row.setAttribute('aria-label', t('选择顶点 {n}', { n: i + 1 }));
     const name = document.createElement('span');
-    name.textContent = `顶点 ${i + 1}`;
+    name.textContent = t('顶点 {n}', { n: i + 1 });
     const value = document.createElement('span');
-    value.textContent = `${roundedNumber(radii[i])} px${result.limited[i] ? '（受限）' : ''}`;
+    value.textContent = `${roundedNumber(radii[i])} px${result.limited[i] ? t('（受限）') : ''}`;
     row.append(name, value);
     row.addEventListener('click', (e) => vertexSelect(i, e.shiftKey));
     list.append(row);
@@ -117,7 +150,7 @@ function render(preserveInput = false) {
   const values = [...selected].map((i) => radii[i]);
   $('radius').disabled = !selected.size || busy;
   $('radius').placeholder =
-    values.length && values.some((r) => r !== values[0]) ? '多个值' : '';
+    values.length && values.some((r) => r !== values[0]) ? t('多个值') : '';
   if (!preserveInput)
     $('radius').value =
       values.length && values.every((r) => r === values[0])
@@ -125,17 +158,18 @@ function render(preserveInput = false) {
         : '';
   $('selection-label').textContent =
     selected.size === 1
-      ? `顶点 ${[...selected][0] + 1}`
-      : `已选 ${selected.size} 个顶点`;
+      ? t('顶点 {n}', { n: [...selected][0] + 1 })
+      : t('已选 {n} 个顶点', { n: selected.size });
   $('radius').step = model.native ? '1' : 'any';
   $('restore').disabled = busy;
   $('zero').disabled = !selected.size || busy;
   const limited = result.limited.flatMap((yes, i) =>
-    yes ? [`${i + 1}：${roundedNumber(result.effectiveRadii[i])}px`] : [],
+    yes ? [`#${i + 1} · ${roundedNumber(result.effectiveRadii[i])} px`] : [],
   );
   $('limit-note').hidden = !limited.length;
-  $('limit-note').textContent =
-    `受边长或轮廓间距限制，实际半径 ${limited.join('；')}。输入值仍会保存。`;
+  $('limit-note').textContent = t('受边长或轮廓间距限制，实际半径为 {values}。输入值仍会保存。', {
+    values: limited.join(language === 'zh' ? '、' : ', '),
+  });
 }
 let timer = null;
 function cancelSave() {
@@ -294,6 +328,7 @@ window.addEventListener('message', (event) => {
     notice(msg.message, 'error');
   }
 });
+updateLanguage();
 send({ type: 'ready' });
 // Also recover a missed ready or selection event when a background tab wakes.
 setInterval(() => send({ type: model ? 'sync' : 'ready' }), 1250);

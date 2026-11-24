@@ -1,36 +1,39 @@
-# Path Corner Radius · 顶点圆角
+# Path Corner Radius
 
-Change one corner of a vector path without rounding the others. Path Corner Radius also edits the native corners of rectangles and boards. The plugin interface is in Simplified Chinese.
+English · [简体中文](README.zh-CN.md)
 
-![Select vertex 3, enter a radius of 56 px and see the sharp tip become round.](docs/images/corner-walkthrough.png)
+Round one vertex of a vector path while keeping the others sharp. The plugin also edits the native corners of rectangles and boards. In this example, only the tip of the arrow changes, from 0 to 56 px.
 
-## How to use · 使用方式
-
-1. Select a path on the canvas and open **Path Corner Radius**. Click the numbered vertex you want to edit. Hold **Shift** to select several.
-2. Type a radius in pixels. Press **Enter** to save immediately, or pause to let the plugin save automatically.
-3. In the example, only vertex **3** changes from **0** to **56 px**. Enter **0** to restore a sharp corner, or use Penpot’s undo and redo.
-
-选中路径并打开插件，在预览中点击要修改的编号，输入半径即可。图中只把第 3 个顶点从尖角改为半径 56 px 的圆角，其他顶点保留原状。
-
-<img src="docs/images/corner-panel.png" alt="插件面板显示示例路径，顶点 3 已保存为 56 px" width="410">
+![Select the arrow tip, enter 56 px and see the rounded result.](docs/images/corner-walkthrough.png)
 
 ## Install
 
-Open the plugin manager in the Penpot editor, paste the [manifest URL](https://tykevin.github.io/penpot-path-corner-radius/manifest.json) and choose **Install → Allow**. Open the plugin and select a shape on the canvas.
+In the Penpot editor, open **Plugins**, paste the [manifest URL](https://tykevin.github.io/penpot-path-corner-radius/manifest.json) and choose **Install → Allow**. Open **Path Corner Radius** and select a shape on the canvas.
 
-## Editing corners
+## Edit a corner
 
-- Rectangles and boards use native integer corner radii. Their children and layout are preserved.
-- Vector paths support fractional radii on editable corners. The plugin can recognize some existing circular fillets on imported paths. Smooth nodes and open endpoints have no corner to round.
-- Enter zero to restore a sharp corner. Oversized radii are limited by the available geometry.
-- Use the layer selector to switch between editable shapes in a group.
+1. Click a numbered vertex in the preview. Hold **Shift** to select several. For a group, use the layer menu to pick the shape to edit.
+2. Enter a radius in pixels. Press **Enter** to save immediately, or pause to save automatically.
+3. Enter **0** to restore a sharp corner. You can undo and redo edits in Penpot.
+
+<img src="docs/images/corner-panel.png" alt="English plugin panel showing vertex 3 saved at 56 px." width="410">
+
+## Interface language
+
+The panel follows your browser’s preferred supported language, with English as the fallback. Use the menu at the top of the panel to select **English**, **简体中文** or **Browser language**. When browser storage is available, the panel remembers your choice. Layer names appear exactly as written in your design.
+
+## Supported shapes
+
+- Rectangles and boards use native whole-number radii and retain their children and layout.
+- Vector paths support fractional radii at editable corners. Some circular fillets on imported paths can be recognized. Smooth nodes and open endpoints have no corner to round.
+- Nearby edges can limit the effective radius. The panel shows the limit and keeps the entered value.
 
 ## Data and permissions
 
-The plugin uses `content:read` to inspect the selection and `content:write` to apply edits. For paths, it stores editable geometry on the shape in the Penpot document. The plugin has no analytics, external API calls, or service of its own. The browser requests the plugin’s static files from GitHub Pages.
+The plugin uses `content:read` to read the selection and `content:write` to apply edits. It saves editable path geometry on the shape in your Penpot document. The browser loads static files from GitHub Pages. The plugin has no analytics or external API calls.
 
 ## Development
 
-With Node.js 20 or later, run `npm test` and then `npm run build`. The static plugin is built into `dist/`. GitHub Pages serves that directory after tests pass on the main branch.
+With Node.js 20 or later, run `npm test` and `npm run build`. GitHub Pages deploys the static files in `dist/` after tests pass on the main branch.
 
-Released under the [Mozilla Public License 2.0](LICENSE).
+[Mozilla Public License 2.0](LICENSE)

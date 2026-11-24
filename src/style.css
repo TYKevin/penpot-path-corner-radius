@@ -174,7 +174,7 @@ p {
   margin-top: 12px;
   font-weight: 600;
 }
-.radius-label span {
+.radius-label .unit {
   float: right;
   color: var(--muted);
   font-weight: 400;
@@ -256,9 +256,21 @@ li {
   display: none;
 }
 #layers {
-  max-width: 48%;
+  margin-bottom: 10px;
+  max-width: 100%;
   font: inherit;
 }
 #preview {
   height: 180px;
+}
+
+#language {
+  flex-shrink: 0;
+  max-width: 44%;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  background: var(--bg);
+  color: var(--fg);
 }

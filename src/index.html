@@ -3,37 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>顶点圆角 · Path Corner Radius</title>
+    <title data-i18n>顶点圆角</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <header>
       <div>
-        <h1>顶点圆角</h1>
-        <p id="shape-name">选择异形路径，逐个调整圆角</p>
+        <h1 data-i18n>顶点圆角</h1>
+        <p id="shape-name"></p>
       </div>
-      <select id="layers" aria-label="选择图层" hidden></select>
+      <select id="language" aria-label="界面语言" data-i18n-aria>
+        <option value="auto" data-i18n>跟随浏览器</option>
+        <option value="en" lang="en">English</option>
+        <option value="zh" lang="zh-CN">简体中文</option>
+      </select>
     </header>
+    <select id="layers" aria-label="选择图层" data-i18n-aria hidden></select>
     <div id="notice" role="status" aria-live="polite">
-      选中图形即可调整圆角。
+      选中一个图形即可调整圆角。
     </div>
     <main id="editor" hidden>
       <div class="preview-wrap">
-        <svg id="preview" viewBox="0 0 400 230" aria-label="路径顶点预览">
+        <svg id="preview" viewBox="0 0 400 230" aria-label="路径顶点预览" data-i18n-aria>
           <path id="original" />
           <path id="rounded" />
           <g id="vertices"></g>
         </svg>
       </div>
-      <p class="caption">点击预览中的编号选择顶点 · 按住 Shift 可多选</p>
+      <p class="caption" data-i18n>点击预览中的编号选择顶点 · 按住 Shift 可多选</p>
       <div class="selection-line">
-        <strong id="selection-label">顶点 1</strong>
+        <strong id="selection-label"></strong>
         <div>
-          <button id="all" class="subtle">全选</button
-          ><button id="none" class="subtle">清空选择</button>
+          <button id="all" class="subtle" data-i18n>全选</button
+          ><button id="none" class="subtle" data-i18n>清空选择</button>
         </div>
       </div>
-      <label class="radius-label" for="radius">圆角半径 <span>px</span></label>
+      <label class="radius-label" for="radius"><span data-i18n>圆角半径</span> <span class="unit">px</span></label>
       <div class="radius-control">
         <input
           id="radius"
@@ -43,16 +48,16 @@
           step="1"
           inputmode="decimal"
           aria-describedby="radius-help"
-        /><button id="zero" class="subtle">设为 0</button>
+        /><button id="zero" class="subtle" data-i18n>设为 0</button>
       </div>
-      <p id="radius-help" class="caption">输入后自动保存，按回车立即保存。</p>
+      <p id="radius-help" class="caption" data-i18n>输入后自动保存，按回车立即保存。</p>
       <div id="limit-note" class="limit" hidden></div>
       <details>
-        <summary>各顶点半径</summary>
+        <summary data-i18n>各顶点半径</summary>
         <div id="radius-list"></div>
       </details>
       <footer>
-        <button id="restore" class="subtle">所有角设为 0</button>
+        <button id="restore" class="subtle" data-i18n>所有角设为 0</button>
       </footer>
     </main>
     <script type="module" src="./ui.mjs"></script>
