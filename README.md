@@ -1,6 +1,18 @@
 # Path Corner Radius · 顶点圆角
 
-Edit individual corners on rectangles, boards and vector paths in Penpot. Pick a vertex in the preview, hold Shift to select several, and type a radius. Edits save automatically and support Penpot’s undo and redo. The plugin interface is in Simplified Chinese.
+Change one corner of a vector path without rounding the others. Path Corner Radius also edits the native corners of rectangles and boards. The plugin interface is in Simplified Chinese.
+
+![Select vertex 3, enter a radius of 56 px and see the sharp tip become round.](docs/images/corner-walkthrough.png)
+
+## How to use · 使用方式
+
+1. Select a path on the canvas and open **Path Corner Radius**. Click the numbered vertex you want to edit. Hold **Shift** to select several.
+2. Type a radius in pixels. Press **Enter** to save immediately, or pause to let the plugin save automatically.
+3. In the example, only vertex **3** changes from **0** to **56 px**. Enter **0** to restore a sharp corner, or use Penpot’s undo and redo.
+
+选中路径并打开插件，在预览中点击要修改的编号，输入半径即可。图中只把第 3 个顶点从尖角改为半径 56 px 的圆角，其他顶点保留原状。
+
+<img src="docs/images/corner-panel.png" alt="插件面板显示示例路径，顶点 3 已保存为 56 px" width="410">
 
 ## Install
 
