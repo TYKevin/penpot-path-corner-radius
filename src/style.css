@@ -1,0 +1,264 @@
+:root {
+  font:
+    13px/1.5 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    sans-serif;
+  color-scheme: light;
+  --bg: #fff;
+  --panel: #f4f5f7;
+  --fg: #23272e;
+  --muted: #69717d;
+  --line: #dce0e6;
+  --accent: #6653d5;
+  --tint: #eeebfc;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #1d2025;
+  --panel: #282d34;
+  --fg: #e9edf2;
+  --muted: #acb4bf;
+  --line: #414852;
+  --accent: #a99af7;
+  --tint: #38304c;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 18px;
+  background: var(--bg);
+  color: var(--fg);
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 7px 11px;
+  background: var(--bg);
+  color: var(--fg);
+}
+button:hover {
+  background: var(--panel);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+button:focus-visible,
+input:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+h1 {
+  font-size: 17px;
+  margin: 0;
+}
+p {
+  margin: 5px 0;
+}
+#shape-name {
+  color: var(--muted);
+  font-size: 12px;
+  max-width: 250px;
+  overflow-wrap: anywhere;
+}
+.subtle {
+  font-size: 12px;
+}
+.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.primary:hover {
+  filter: brightness(1.08);
+  background: var(--accent);
+}
+#notice {
+  padding: 10px 12px;
+  background: var(--panel);
+  border-radius: 8px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  overflow-wrap: anywhere;
+}
+#notice.error {
+  background: #fff0ed;
+  color: #a43125;
+}
+#notice.success {
+  background: #eaf7f0;
+  color: #225d3d;
+}
+.preview-wrap {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+#preview {
+  display: block;
+  width: 100%;
+  height: 230px;
+}
+#original {
+  fill: none;
+  stroke: var(--muted);
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+  opacity: 0.5;
+}
+#rounded {
+  fill: #8a6be9;
+  fill-opacity: 0.22;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.vertex circle {
+  fill: var(--bg);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.vertex.selected circle {
+  fill: var(--accent);
+}
+.vertex text {
+  fill: var(--fg);
+  font-size: 11px;
+  dominant-baseline: central;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.vertex.selected text {
+  fill: #fff;
+}
+.vertex {
+  cursor: pointer;
+}
+.caption {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 8px 0;
+}
+.selection-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  gap: 8px;
+}
+.selection-line div {
+  display: flex;
+  gap: 5px;
+}
+.radius-label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+}
+.radius-label span {
+  float: right;
+  color: var(--muted);
+  font-weight: 400;
+}
+.radius-control {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+#radius {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 18px;
+}
+.limit {
+  background: var(--tint);
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  margin: 10px 0;
+}
+details {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+}
+#radius-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  margin-top: 8px;
+  max-height: 145px;
+  overflow: auto;
+}
+.radius-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  font-size: 12px;
+}
+.radius-row.selected {
+  border-color: var(--accent);
+  background: var(--tint);
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin-top: 14px;
+}
+#empty-help {
+  padding: 5px 2px;
+}
+ol {
+  padding-left: 20px;
+  color: var(--muted);
+}
+li {
+  margin-bottom: 7px;
+}
+[hidden] {
+  display: none !important;
+}
+
+#notice:empty {
+  display: none;
+}
+#layers {
+  max-width: 48%;
+  font: inherit;
+}
+#preview {
+  height: 180px;
+}

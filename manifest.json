@@ -1,0 +1,8 @@
+{
+  "name": "顶点圆角 · Path Corner Radius",
+  "description": "选中矩形、画板或矢量路径即可调整顶点圆角，输入后自动保存。",
+  "version": 2,
+  "code": "plugin.js",
+  "icon": "icon.svg",
+  "permissions": ["content:read", "content:write"]
+}

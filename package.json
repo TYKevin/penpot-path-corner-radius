@@ -1,0 +1,16 @@
+{
+  "name": "penpot-path-corner-radius",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Edit corners on selected paths, rectangles and boards in Penpot",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "author": "Kevin Tong",
+  "license": "MPL-2.0"
+}
